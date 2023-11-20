@@ -37,6 +37,7 @@ const CompletedService = () => {
 
   return (
     <div className="h-full overflow-hidden">
+      
       <Wrapper title={'Completed Service'}>
         <div className="overflow-y-scroll h-screen pb-10">
           <div className="relative overflow-x-auto bg-white scrollbar-thumb-[#c7d6df] scrollbar-thin scrollbar-track-gray-100 xl:h-[calc(100vh-230px)] h-[calc(100vh-100px)] xl:pb-0 pb-5 no-scrollbar shadow-sm rounded-bl-[10px] rounded-br-[10px]">

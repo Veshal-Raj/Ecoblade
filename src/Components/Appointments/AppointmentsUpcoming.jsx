@@ -3,11 +3,11 @@ import tableimg from '../../assets/tableImg.png';
 import favicon from '../../assets/star_black_24dp 1.svg';
 import { AiOutlineEye } from 'react-icons/ai';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, Pagination } from '@mui/material';
+
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AppointmentContext } from '../../context/AppointmentContext';
-import Pagination from '../paginatoin/Pagination';
 
 const AppointmentsUpcoming = () => {
   const [data, setData] = useState([]);
@@ -19,6 +19,8 @@ const AppointmentsUpcoming = () => {
     currentPage: 1,
     totalPages: 1,
   });
+
+  const [filteredData, setfilteredData] = useState(0)
 
   const [postsPerPage, setPostPerPage] = useState(10);
   const [currentpage, setCurrentPage] = useState(1);
@@ -66,6 +68,7 @@ const AppointmentsUpcoming = () => {
 
   return (
     <div className="">
+      
       <div className="relative overflow-x-auto bg-white scrollbar-thumb-[#c7d6df] scrollbar-thin scrollbar-track-gray-100 xl:h-[calc(100vh-220px)] h-[calc(100vh-240px)] no-scrollbar shadow-sm rounded-bl-[10px] rounded-br-[10px]">
         {loading ? (
           <div className="w-full h-full flex items-center justify-center">
@@ -191,13 +194,13 @@ const AppointmentsUpcoming = () => {
         </div>
         <div>
           <ThemeProvider theme={theme}>
-            <Pagination
-              totalPosts={data.length}
-              postsPerPage={postsPerPage}
-              setCurrentPage={setCurrentPage}
-              currentPage={currentpage}
-              lastPostIndex={lastPostIndex}
-              npage={npage}
+          <Pagination
+              count={npage}  // Corrected prop name
+              page={currentpage}  // Corrected prop name
+              onChange={(event, value) => setCurrentPage(value)}  // Corrected prop name
+              color="primary"
+              size="large"
+              boundaryCount={1}  // Corrected prop name
             />
           </ThemeProvider>
         </div>

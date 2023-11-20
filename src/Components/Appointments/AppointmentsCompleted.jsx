@@ -7,8 +7,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import Pagination from '../paginatoin/Pagination';
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, Pagination } from '@mui/material';
+
 
 const AppointmentsCompleted = () => {
   const [data, setData] = useState([]);
@@ -18,15 +18,16 @@ const AppointmentsCompleted = () => {
     currentPage: 1,
     totalPages: 1,
   });
-  const [postsPerPage, setPostPerPage] = useState(10);
+  const [postsPerPage, setPostPerPage] = useState(15);
   const [currentpage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   console.log('currentPage', currentpage);
 
   const lastPostIndex = currentpage * postsPerPage;
-  const firstPostIndex = lastPostIndex - postsPerPage;
-  const currentPosts = data?.appointments?.slice(firstPostIndex, lastPostIndex);
-  const npage = Math.ceil(data?.appointments?.length / postsPerPage);
+const firstPostIndex = lastPostIndex - postsPerPage;
+const currentPosts = data?.appointments?.slice(firstPostIndex, lastPostIndex);
+
+const npage = Math.ceil(data?.appointments?.length / postsPerPage);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,7 +35,7 @@ const AppointmentsCompleted = () => {
       try {
         setLoading(true);
         const responce = await axios.get(
-          `https://yyig5rvvfp.us-east-1.awsapprunner.com/app/admin/completedAppointmentList?page=2&perPage=10`
+          `https://yyig5rvvfp.us-east-1.awsapprunner.com/app/admin/completedAppointmentList?page=1&perPage=10`
         );
         setData(responce.data.response);
         console.log(
@@ -227,16 +228,17 @@ const AppointmentsCompleted = () => {
           Showing 1 to {currentPosts?.length} of {data?.total}
         </div>
         <div>
-          <ThemeProvider theme={theme}>
-            <Pagination
-              totalPosts={data?.total}
-              postsPerPage={postsPerPage}
-              setCurrentPage={setCurrentPage}
-              currentPage={currentpage}
-              lastPostIndex={lastPostIndex}
-              npage={npage}
-            />
-          </ThemeProvider>
+        <ThemeProvider theme={theme}>
+          <Pagination
+            count={npage}  // Corrected prop name
+            page={currentpage}  // Corrected prop name
+            onChange={(event, value) => setCurrentPage(value)}  // Corrected prop name
+            color="primary"
+            size="large"
+            boundaryCount={1}  // Corrected prop name
+          />
+        </ThemeProvider>
+
         </div>
       </div>
     </div>

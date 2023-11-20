@@ -5,14 +5,13 @@ import tableimg from '../assets/tableImg.png';
 import favicon from '../assets/star_black_24dp 1.svg';
 import { LuMoreHorizontal } from 'react-icons/lu';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { CircularProgress, Pagination } from '@mui/material';
 
 import { AiOutlineEye } from 'react-icons/ai';
 import { BiBlock } from 'react-icons/bi';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import CircularProgress from '@mui/material/CircularProgress'; // Import CircularProgress
 import axios from 'axios';
-import Pagination from '../Components/paginatoin/Pagination';
 
 function extractInitials(fullName) {
   const nameArray = fullName.split(' ');
@@ -38,15 +37,20 @@ const Clients = () => {
   const [filteredServices, setFilteredServices] = useState([]);
   const [services, setServices] = useState([]);
 
-  const [postsPerPage, setPostPerPage] = useState(5);
+  const [postsPerPage, setPostPerPage] = useState(10);
   const [currentpage, setCurrentPage] = useState(1);
   console.log('currentPage', currentpage);
 
   const lastPostIndex = currentpage * postsPerPage;
   const firstPostIndex = lastPostIndex - postsPerPage;
   const currentPosts = filteredServices.slice(firstPostIndex, lastPostIndex);
+  const totalPages = Math.ceil(filteredServices.length / postsPerPage);
+
   const npage = Math.ceil(filteredServices.length / postsPerPage);
   const [currentPost, setCurrentPosts] = useState([]);
+  const [filteredData, setFilteredData] = useState(0);
+
+  console.log('filtered data', filteredData)
 
   const theme = createTheme({
     palette: {
@@ -65,7 +69,9 @@ const Clients = () => {
         );
 
         const updatedServices = response.data.response.clientsDetails;
+        console.log('updatedServices', updatedServices)
         setServices(updatedServices);
+        setFilteredData(updatedServices)
 
         const filtered = updatedServices.filter((service) =>
           service.firstName.toLowerCase().includes(searchQuery.toLowerCase())
@@ -99,6 +105,8 @@ const Clients = () => {
       const filtered = services.filter((service) =>
         service.firstName.toLowerCase().includes(searchQuery.toLowerCase())
       );
+
+      setFilteredData(filtered.length);
 
       setPaginationData((prevPaginationData) => ({
         ...prevPaginationData,
@@ -300,23 +308,24 @@ const Clients = () => {
               <div className="text-xs font-normal text-[#49B400]">
                 {/* Showing 1 to {currentPosts.length} of {services.length} */}
                 Showing {firstPostIndex + 1} to{' '}
-                {currentpage === 1
-                  ? lastPostIndex
-                  : currentpage === 2
-                  ? lastPostIndex
-                  : ''}{' '}
-                of {services.length}
+                {currentpage === totalPages ? filteredServices.length : 0}{' '}
+                of {filteredServices.length}
               </div>
             </div>
             <div>
               <ThemeProvider theme={theme}>
                 <Pagination
-                  totalPosts={filteredServices.length}
-                  postsPerPage={postsPerPage}
-                  setCurrentPage={setCurrentPageAndResetSearch}
-                  currentPage={currentpage}
-                  lastPostIndex={lastPostIndex}
-                  npage={npage}
+                count={Math.ceil(filteredData.length / postsPerPage)}
+                page={currentpage}
+                onChange={(event, value) => setCurrentPage(value)}
+                totalPosts={filteredServices.length}
+                postsPerPage={postsPerPage}
+                setCurrentPage={setCurrentPageAndResetSearch}
+                currentPage={currentpage}
+                lastPostIndex={lastPostIndex}
+                color='primary'
+                size='large'
+                npage={npage}
                 />
               </ThemeProvider>
             </div>

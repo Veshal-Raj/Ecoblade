@@ -113,9 +113,10 @@ const UpcomingService = () => {
       <div className=" ">
         <Wrapper title={'Upcoming Service'}>
           <div className="relative overflow-x-auto bg-white scrollbar-thumb-[#c7d6df] scrollbar-thin scrollbar-track-gray-100 xl:h-[calc(100vh-180px)] h-[calc(100vh-100px)] xl:pb-0 pb-5 no-scrollbar shadow-sm rounded-bl-[10px] rounded-br-[10px]">
+            
             <div className=" border-b py-4 px-10 flex justify-between items-center">
               <p className="ext-[#333333] font-semibold text-base ">
-                Information
+                Information 
               </p>
               <button
                 onClick={handleNaviaget}

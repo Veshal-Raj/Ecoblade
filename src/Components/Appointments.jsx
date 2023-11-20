@@ -3,7 +3,9 @@ import tableimg from '../assets/tableImg.png';
 import favicon from '../assets/star_black_24dp 1.svg';
 import { LuMoreHorizontal } from 'react-icons/lu';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Pagination from '../Components/paginatoin/Pagination';
+// import Pagination from '../Components/paginatoin/Pagination';
+import { CircularProgress, Pagination } from '@mui/material';
+
 import { motion } from 'framer-motion';
 import { AiOutlineEye } from 'react-icons/ai';
 import { BiBlock, BiChevronDown, BiLogIn } from 'react-icons/bi';
@@ -13,7 +15,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import DateTimePicker from 'react-datetime-picker';
 import { utcToZonedTime, format } from 'date-fns-tz';
-import CircularProgress from '@mui/material/CircularProgress'; // Import CircularProgress
+// import CircularProgress from '@mui/material/CircularProgress'; // Import CircularProgress
 import { toast, ToastContainer } from 'react-toastify';
 
 const CustomInput = ({ value, onClick }) => {
@@ -50,7 +52,7 @@ const Appointments = () => {
   const [service_providerId, setservice_ProviderId] = useState(null);
 
   //pagination
-  const [postsPerPage, setPostPerPage] = useState(5);
+  const [postsPerPage, setPostPerPage] = useState(10);
   const [currentpage, setCurrentPage] = useState(1);
 
   const lastPostIndex = currentpage * postsPerPage;
@@ -69,7 +71,7 @@ const Appointments = () => {
         setData(response.data.appointments.appointments);
         console.log(
           'm,m,m,m,m,m,m,m,m,m,m',
-          typeof response.data.appointments.appointments
+           response.data.appointments.appointments
         );
       })
       .catch((error) => {
@@ -357,6 +359,8 @@ const Appointments = () => {
                 setCurrentPage={setCurrentPage}
                 currentPage={currentpage}
                 lastPostIndex={lastPostIndex}
+                color='primary'
+                size='large'
                 npage={npage}
               />
             </div>
